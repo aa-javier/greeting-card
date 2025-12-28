@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 const PIN_MAP = {
   keluarga: "1",
@@ -43,11 +43,32 @@ const PIN_TEXT = {
 }
 
 export default function PinInput({ category, onBack, onSuccess }) {
-  const [pin, setPin] = useState("")
+  const [pin, setPin] = useState(["", "", "", ""])
   const [error, setError] = useState(false)
+  const inputs = useRef([])
+
+  function handleChange(value, index) {
+    if (!/^\d?$/.test(value)) return
+
+    const newPin = [...pin]
+    newPin[index] = value
+    setPin(newPin)
+    setError(false)
+
+    if (value && index < 3) {
+      inputs.current[index + 1].focus()
+    }
+  }
+
+  function handleKeyDown(e, index) {
+    if (e.key === "Backspace" && !pin[index] && index > 0) {
+      inputs.current[index - 1].focus()
+    }
+  }
 
   function submit() {
-    if (pin === PIN_MAP[category]) {
+    const enteredPin = pin.join("")
+    if (enteredPin === PIN_MAP[category]) {
       onSuccess()
     } else {
       setError(true)
@@ -87,32 +108,48 @@ export default function PinInput({ category, onBack, onSuccess }) {
         </p>
       </div>
 
-      <input
-        type="password"
-        maxLength={4}
-        value={pin}
-        onChange={e => setPin(e.target.value)}
+      {/* OTP PIN BOX */}
+      <div
         style={{
-          marginTop: 24,
-          fontSize: 24,
-          padding: 12,
-          width: "100%",
-          maxWidth: 220,
-          textAlign: "center",
-          borderRadius: 10,
-          border: "none"
+          display: "flex",
+          justifyContent: "center",
+          gap: 12,
+          marginTop: 28
         }}
-      />
+      >
+        {pin.map((digit, i) => (
+          <input
+            key={i}
+            ref={(el) => (inputs.current[i] = el)}
+            type="password"
+            inputMode="numeric"
+            maxLength={1}
+            value={digit}
+            onChange={(e) => handleChange(e.target.value, i)}
+            onKeyDown={(e) => handleKeyDown(e, i)}
+            style={{
+              width: 50,
+              height: 56,
+              fontSize: 28,
+              textAlign: "center",
+              borderRadius: 12,
+              border: error ? "2px solid #f87171" : "none",
+              background: "#fff",
+              color: "#000"
+            }}
+          />
+        ))}
+      </div>
 
       <button
         onClick={submit}
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 24 }}
       >
         Buka Pesan
       </button>
 
       {error && (
-        <p style={{ color: "#f87171", marginTop: 10 }}>
+        <p style={{ color: "#f87171", marginTop: 12 }}>
           PIN salah ❌
         </p>
       )}
