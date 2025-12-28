@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react"
 
-export default function MessagePage({ zodiac, page, onNext }) {
+export default function MessagePage({ category, page, onNext }) {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    fetch(`/texts/${zodiac}/text${page}.json`)
+    fetch(`/texts/${category}/text${page}.json`)
       .then(res => res.ok ? res.json() : null)
       .then(setData)
       .catch(() => setData(null))
-  }, [zodiac, page])
+  }, [category, page])
 
   if (!data) {
     return (
-      <div style={{ textAlign: "center", padding: 40 }}>
-        <p>✨ Halaman ini masih kosong ✨</p>
+      <div className="container">
+        <p>Halaman ini masih kosong 🤍</p>
         <button onClick={onNext}>Lanjut</button>
       </div>
     )
   }
 
   return (
-    <div style={{ textAlign: "center", padding: 40 }}>
+    <div className="container">
       <h1>{data.title}</h1>
-      <p>{data.content}</p>
-      {data.image && <img src={data.image} width="70%" />}
-      <br />
+      <p style={{ lineHeight: 1.6 }}>{data.content}</p>
       <button onClick={onNext}>Lanjut ➜</button>
     </div>
   )
