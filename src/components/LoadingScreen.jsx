@@ -2,16 +2,14 @@ export default function LoadingScreen({ onFinish }) {
   setTimeout(onFinish, 2500)
 
   return (
-    <div style={{
+    <div className="container" style={{
       minHeight: "100vh",
       display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "black",
-      color: "white",
-      fontSize: 24
+      flexDirection: "column",
+      justifyContent: "center"
     }}>
-      Selamat Datang Di Pesan Rahasia 🔐
+      <h1>Selamat Datang Di Pesan Rahasia 🔐</h1>
+      <p style={{ opacity: 0.7 }}>Membuka pesan khusus untukmu…</p>
     </div>
   )
 }
