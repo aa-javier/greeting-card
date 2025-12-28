@@ -1,135 +1,121 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 export default function LoadingScreen({ onFinish }) {
-  const [progress, setProgress] = useState(0)
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((p) => {
-        if (p >= 100) {
-          clearInterval(interval)
-          setTimeout(onFinish, 600)
-          return 100
-        }
-        return p + 1
-      })
-    }, 25)
-
-    return () => clearInterval(interval)
+    const t = setTimeout(onFinish, 5000)
+    return () => clearTimeout(t)
   }, [onFinish])
 
   return (
-    <div className="space">
-      {/* Star Rain */}
-      {Array.from({ length: 25 }).map((_, i) => (
-        <div
-          key={i}
-          className="star"
-          style={{
-            animationDelay: `${Math.random() * 5}s`,
-            top: `${Math.random() * -100}px`,
-            left: `${50 + Math.random() * 100}%`
-          }}
-        />
-      ))}
+    <div className="space-bg">
+      <h1 className="title">
+        Selamat Datang Di Pesan Rahasia ✨
+      </h1>
+      <p className="subtitle">
+        Membuka pesan khusus untukmu…
+      </p>
 
-      {/* Content */}
-      <div className="content">
-        <h1>Selamat Datang Di Pesan Rahasia 🔐</h1>
-        <p>Membuka pesan khusus untukmu…</p>
+      {/* Stars */}
+      <div className="stars"></div>
 
-        <div className="progress-wrapper">
-          <div
-            className="cat"
-            style={{ left: `calc(${progress}% - 18px)` }}
-          >
-            🐱
-          </div>
-          <div
-            className="progress-bar"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+      {/* Constellation */}
+      <svg className="constellation" viewBox="0 0 100 100">
+        <circle cx="20" cy="30" r="1.5" />
+        <circle cx="40" cy="20" r="1.5" />
+        <circle cx="60" cy="35" r="1.5" />
+        <circle cx="75" cy="25" r="1.5" />
+        <line x1="20" y1="30" x2="40" y2="20" />
+        <line x1="40" y1="20" x2="60" y2="35" />
+        <line x1="60" y1="35" x2="75" y2="25" />
+      </svg>
 
-        <div className="percent">{progress}%</div>
-      </div>
+      {/* Asteroid */}
+      <div className="asteroid"></div>
 
       <style>{`
-        .space {
+        .space-bg {
           height: 100vh;
-          background: radial-gradient(circle at top right, #0b1d3a, #020617);
-          overflow: hidden;
+          background: radial-gradient(circle at top, #0b1d3a, #020617);
+          color: white;
           display: flex;
+          flex-direction: column;
           justify-content: center;
           align-items: center;
-          color: white;
+          overflow: hidden;
           position: relative;
           text-align: center;
         }
 
-        .content {
-          z-index: 5;
-          width: 100%;
-          max-width: 420px;
-          padding: 20px;
+        .title {
+          z-index: 3;
+          font-size: 28px;
         }
 
-        p { opacity: 0.75; }
-
-        /* Progress */
-        .progress-wrapper {
-          position: relative;
-          height: 10px;
-          background: rgba(255,255,255,0.15);
-          border-radius: 999px;
-          overflow: hidden;
-          margin: 20px 0 10px;
+        .subtitle {
+          z-index: 3;
+          opacity: 0.7;
+          margin-top: 6px;
         }
 
-        .progress-bar {
-          height: 100%;
-          background: linear-gradient(90deg, #38bdf8, #60a5fa);
-          border-radius: 999px;
-        }
-
-        .cat {
+        /* Stars */
+        .stars::after {
+          content: "";
           position: absolute;
-          top: -26px;
-          font-size: 26px;
-          transition: left 0.2s linear;
+          inset: 0;
+          background:
+            radial-gradient(1px 1px at 10% 20%, #bfdbfe, transparent),
+            radial-gradient(1px 1px at 30% 80%, #bfdbfe, transparent),
+            radial-gradient(1px 1px at 50% 50%, #bfdbfe, transparent),
+            radial-gradient(1px 1px at 70% 30%, #bfdbfe, transparent),
+            radial-gradient(1px 1px at 90% 70%, #bfdbfe, transparent);
+          animation: twinkle 3s infinite alternate;
         }
 
-        .percent {
-          font-size: 20px;
-          font-weight: bold;
-          letter-spacing: 2px;
+        @keyframes twinkle {
+          from { opacity: 0.4; }
+          to { opacity: 1; }
         }
 
-        /* Star rain */
-        .star {
+        /* Constellation */
+        .constellation {
           position: absolute;
-          width: 2px;
-          height: 14px;
-          background: linear-gradient(180deg, #bfdbfe, transparent);
-          opacity: 0.8;
-          animation: fall 3.5s linear infinite;
-          transform: rotate(-45deg);
+          width: 300px;
+          height: 300px;
+          top: 15%;
+          left: 10%;
+          stroke: rgba(191,219,254,0.6);
+          stroke-width: 0.4;
+          fill: #e0f2fe;
+          animation: glow 4s infinite alternate;
         }
 
-        @keyframes fall {
-          from {
-            transform: translate(0, 0) rotate(-45deg);
-            opacity: 1;
-          }
-          to {
-            transform: translate(-160vw, 160vh) rotate(-45deg);
-            opacity: 0;
-          }
+        @keyframes glow {
+          from { opacity: 0.4; }
+          to { opacity: 0.9; }
+        }
+
+        /* Asteroid */
+        .asteroid {
+          position: absolute;
+          width: 60px;
+          height: 4px;
+          background: linear-gradient(90deg, #e5e7eb, transparent);
+          top: 65%;
+          left: -20%;
+          animation: fly 4s linear infinite;
+        }
+
+        @keyframes fly {
+          from { transform: translateX(0); }
+          to { transform: translateX(140vw); }
         }
 
         @media (max-width: 600px) {
-          h1 { font-size: 22px; }
-          .cat { font-size: 22px; }
+          .title { font-size: 22px; }
+          .constellation {
+            width: 200px;
+            height: 200px;
+          }
         }
       `}</style>
     </div>
