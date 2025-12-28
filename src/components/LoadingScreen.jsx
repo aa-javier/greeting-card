@@ -21,11 +21,17 @@ export default function LoadingScreen({ onFinish }) {
   return (
     <div className="space">
       {/* Star Rain */}
-      <div className="meteor m1"></div>
-      <div className="meteor m2"></div>
-      <div className="meteor m3"></div>
-      <div className="meteor m4"></div>
-      <div className="meteor m5"></div>
+      {Array.from({ length: 25 }).map((_, i) => (
+        <div
+          key={i}
+          className="star"
+          style={{
+            animationDelay: `${Math.random() * 5}s`,
+            top: `${Math.random() * -100}px`,
+            left: `${50 + Math.random() * 100}%`
+          }}
+        />
+      ))}
 
       {/* Content */}
       <div className="content">
@@ -99,24 +105,18 @@ export default function LoadingScreen({ onFinish }) {
           letter-spacing: 2px;
         }
 
-        /* Meteor rain */
-        .meteor {
+        /* Star rain */
+        .star {
           position: absolute;
-          width: 160px;
-          height: 2px;
-          background: linear-gradient(270deg, #e0f2fe, transparent);
+          width: 2px;
+          height: 14px;
+          background: linear-gradient(180deg, #bfdbfe, transparent);
           opacity: 0.8;
-          animation: rain 2.8s linear infinite;
+          animation: fall 3.5s linear infinite;
           transform: rotate(-45deg);
         }
 
-        .m1 { top: -10%; left: 110%; animation-delay: 0s; }
-        .m2 { top: 10%; left: 120%; animation-delay: .4s; }
-        .m3 { top: 30%; left: 130%; animation-delay: .8s; }
-        .m4 { top: 50%; left: 140%; animation-delay: 1.2s; }
-        .m5 { top: 70%; left: 150%; animation-delay: 1.6s; }
-
-        @keyframes rain {
+        @keyframes fall {
           from {
             transform: translate(0, 0) rotate(-45deg);
             opacity: 1;
