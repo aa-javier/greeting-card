@@ -3,37 +3,37 @@ const CATEGORIES = [
     key: "keluarga",
     title: "Keluarga",
     subtitle: "Pesan untuk keluarga",
-    image: "/media/keluarga.png"
+    image: "/media/keluarga.jpg"
   },
   {
     key: "teman",
     title: "Teman",
     subtitle: "Pesan untuk teman",
-    image: "/media/teman.png"
+    image: "/media/teman.jpg"
   },
   {
     key: "sahabat",
     title: "Sahabat",
     subtitle: "Pesan untuk sahabat",
-    image: "/media/sahabat.png"
+    image: "/media/sahabat.jpg"
   },
   {
     key: "pacar",
     title: "Pacar",
     subtitle: "Pesan penuh rasa",
-    image: "/media/pacar.png"
+    image: "/media/pacar.jpg"
   },
   {
     key: "hts",
     title: "HTS",
     subtitle: "Pesan yang menggantung",
-    image: "/media/hts.png"
+    image: "/media/hts.jpg"
   },
   {
     key: "mantan",
     title: "Mantan",
     subtitle: "Pesan yang tertinggal",
-    image: "/media/mantan.png"
+    image: "/media/mantan.jpg"
   }
 ]
 
