@@ -20,20 +20,18 @@ export default function LoadingScreen({ onFinish }) {
 
   return (
     <div className="space">
-      {/* Background stars */}
-      <div className="stars"></div>
-
-      {/* Shooting stars */}
+      {/* Star Rain */}
       <div className="meteor m1"></div>
       <div className="meteor m2"></div>
       <div className="meteor m3"></div>
+      <div className="meteor m4"></div>
+      <div className="meteor m5"></div>
 
       {/* Content */}
       <div className="content">
         <h1>Selamat Datang Di Pesan Rahasia 🔐</h1>
         <p>Membuka pesan khusus untukmu…</p>
 
-        {/* Progress bar */}
         <div className="progress-wrapper">
           <div
             className="cat"
@@ -53,7 +51,7 @@ export default function LoadingScreen({ onFinish }) {
       <style>{`
         .space {
           height: 100vh;
-          background: radial-gradient(circle at top, #0b1d3a, #020617);
+          background: radial-gradient(circle at top right, #0b1d3a, #020617);
           overflow: hidden;
           display: flex;
           justify-content: center;
@@ -70,14 +68,7 @@ export default function LoadingScreen({ onFinish }) {
           padding: 20px;
         }
 
-        h1 {
-          margin-bottom: 6px;
-        }
-
-        p {
-          opacity: 0.75;
-          margin-bottom: 24px;
-        }
+        p { opacity: 0.75; }
 
         /* Progress */
         .progress-wrapper {
@@ -86,22 +77,20 @@ export default function LoadingScreen({ onFinish }) {
           background: rgba(255,255,255,0.15);
           border-radius: 999px;
           overflow: hidden;
-          margin-bottom: 10px;
+          margin: 20px 0 10px;
         }
 
         .progress-bar {
           height: 100%;
           background: linear-gradient(90deg, #38bdf8, #60a5fa);
           border-radius: 999px;
-          transition: width 0.2s ease;
         }
 
         .cat {
           position: absolute;
           top: -26px;
           font-size: 26px;
-          transition: left 0.2s ease;
-          pointer-events: none;
+          transition: left 0.2s linear;
         }
 
         .percent {
@@ -110,42 +99,32 @@ export default function LoadingScreen({ onFinish }) {
           letter-spacing: 2px;
         }
 
-        /* Stars */
-        .stars::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(1px 1px at 10% 20%, #bfdbfe, transparent),
-            radial-gradient(2px 2px at 30% 80%, #bfdbfe, transparent),
-            radial-gradient(1px 1px at 70% 40%, #bfdbfe, transparent),
-            radial-gradient(2px 2px at 90% 10%, #bfdbfe, transparent),
-            radial-gradient(1px 1px at 50% 60%, #bfdbfe, transparent);
-          animation: twinkle 3s infinite alternate;
-        }
-
-        @keyframes twinkle {
-          from { opacity: 0.3; }
-          to { opacity: 1; }
-        }
-
-        /* Meteors */
+        /* Meteor rain */
         .meteor {
           position: absolute;
-          width: 140px;
+          width: 160px;
           height: 2px;
-          background: linear-gradient(90deg, #e0f2fe, transparent);
-          opacity: 0.9;
-          animation: shoot 3s linear infinite;
+          background: linear-gradient(270deg, #e0f2fe, transparent);
+          opacity: 0.8;
+          animation: rain 2.8s linear infinite;
+          transform: rotate(-45deg);
         }
 
-        .m1 { top: 20%; left: -40%; animation-delay: 0s; }
-        .m2 { top: 50%; left: -50%; animation-delay: 1.2s; }
-        .m3 { top: 75%; left: -60%; animation-delay: 2.4s; }
+        .m1 { top: -10%; left: 110%; animation-delay: 0s; }
+        .m2 { top: 10%; left: 120%; animation-delay: .4s; }
+        .m3 { top: 30%; left: 130%; animation-delay: .8s; }
+        .m4 { top: 50%; left: 140%; animation-delay: 1.2s; }
+        .m5 { top: 70%; left: 150%; animation-delay: 1.6s; }
 
-        @keyframes shoot {
-          from { transform: translateX(0) translateY(0); }
-          to { transform: translateX(160vw) translateY(50vh); }
+        @keyframes rain {
+          from {
+            transform: translate(0, 0) rotate(-45deg);
+            opacity: 1;
+          }
+          to {
+            transform: translate(-160vw, 160vh) rotate(-45deg);
+            opacity: 0;
+          }
         }
 
         @media (max-width: 600px) {
